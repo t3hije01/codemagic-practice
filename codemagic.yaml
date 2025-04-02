@@ -10,12 +10,15 @@ workflows:
         PACKAGE_NAME: "com.anonymous.CodemagicSample"  # Replace with your actual package name
       node: 16.14.2
     scripts:
-      - name: Install dependencies
-        script: yarn install
-      - name: Build Android app
-        script: |
-          cd android
-          ./gradlew assembleRelease
+  - name: Install dependencies
+    script: yarn install
+  - name: Generate Android project (if missing)
+    script: npx expo prebuild || true
+  - name: Build Android app
+    script: |
+      cd android
+      ./gradlew assembleRelease
+
     artifacts:
       - android/app/build/outputs/**/*.apk
     publishing:
