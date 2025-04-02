@@ -24,7 +24,7 @@ workflows:
     publishing:
       email:
         recipients:
-          - your-email@example.com
+          - t3hije01@students.oamk.fi
         notify:
           success: true
           failure: true
