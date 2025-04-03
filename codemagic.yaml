@@ -7,22 +7,28 @@ workflows:
       android_signing:
         - myKeystore
       vars:
-        PACKAGE_NAME: "com.anonymous.CodemagicSample"  # Replace with your actual package name
-      node: 18.18.2  # Updated Node.js version
-    
+        PACKAGE_NAME: "com.anonymous.CodemagicSample"
+      node: 18.18.2  # Updated to match Expo requirements
+
     scripts:
       - name: Install dependencies
         script: yarn install
 
-      - name: Generate Android project (if missing)
+      - name: Ensure Android project exists
         script: |
-          rm -rf android  
-          npx expo prebuild --clean --platform android || true
-          ls -la 
+          rm -rf android 
+          npx expo prebuild --clean --platform android
+          echo "Checking if android directory exists..."
+          ls -la
+          if [ ! -d "android" ]; then
+            echo "Error: android directory not created!"
+            exit 1
+          fi
 
       - name: Build Android app
         script: |
           echo "Current directory: $(pwd)"
+          ls -la 
           if [ ! -d "android" ]; then
             echo "Error: android directory not found!"
             exit 1
@@ -39,3 +45,4 @@ workflows:
           - t3hije01@students.oamk.fi
         notify:
           success: true
+          failure: true
