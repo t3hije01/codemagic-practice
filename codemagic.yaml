@@ -17,7 +17,7 @@ workflows:
       - name: Generate Android project (if missing)
         script: |
           rmdir /s /q android  
-          npx expo prebuild --clean --platform android || true
+          npx expo prebuild --clean --platform android
           dir 
 
       - name: Build Android app
