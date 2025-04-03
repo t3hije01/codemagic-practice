@@ -16,9 +16,11 @@ workflows:
 
       - name: Generate Android project (if missing)
         script: |
-          rmdir /s /q android  
+          $ErrorActionPreference = "SilentlyContinue"
+          Remove-Item -Path "android" -Recurse -Force
           npx expo prebuild --clean --platform android
-          dir 
+          $ErrorActionPreference = "Continue"
+          dir
 
       - name: Build Android app
         script: |
