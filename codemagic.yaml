@@ -2,7 +2,7 @@ workflows:
   react-native-android:
     name: React Native Android
     max_build_duration: 120
-    instance_type: linux_x2
+    instance_type: windows
     environment:
       android_signing:
         - myKeystore
@@ -16,23 +16,22 @@ workflows:
 
       - name: Generate Android project (if missing)
         script: |
-          rm -rf android  
+          rmdir /s /q android  
           npx expo prebuild --clean --platform android || true
-          ls -la 
+          dir 
 
       - name: Build Android app
         script: |
-          echo "Current directory: $(pwd)"
-           echo "Checking if android directory exists..."
-          ls -la
-          if [ ! -d "android" ]; then
-           echo "Error: android directory NOT found!"
-          exit 1
-          fi
+          echo "Current directory: %cd%"
+          echo "Checking if android directory exists..."
+          dir
+          if not exist "android" (
+            echo "Error: android directory NOT found!"
+            exit 1
+          )
           cd android
-          chmod +x gradlew
-          ./gradlew clean
-          ./gradlew assembleRelease
+          gradlew.bat clean
+          gradlew.bat assembleRelease
 
     artifacts:
       - android/app/build/outputs/**/*.apk
