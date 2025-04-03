@@ -13,14 +13,7 @@ workflows:
       - name: Install dependencies
         script: yarn install
       - name: Generate Android project (if missing)
-        script: |
-          npx expo prebuild || true
-          echo "Listing project directory after expo prebuild:"
-          ls -la
-          if [ ! -d "android" ]; then
-            echo "Error: android directory not found!"
-            exit 1
-          fi
+        script: npx expo prebuild || true
       - name: Build Android app
         script: |
           echo "Current directory: $(pwd)"
